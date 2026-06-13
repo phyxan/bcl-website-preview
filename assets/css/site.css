@@ -267,8 +267,9 @@ article.post a:hover{text-decoration-color:var(--orange)}
 .box.warn .tag{background:#C92A2A}
 
 .cta-inline{background:var(--charcoal);color:#fff;border-radius:var(--radius);padding:34px;margin:38px 0;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
-.cta-inline h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:8px;font-weight:700}
-.cta-inline p{font-size:14.5px;color:#C9C3BD;margin:0}
+/* class doubled to outrank article.post h3/p (0,1,2) so the dark callout keeps light text inside article bodies */
+.cta-inline.cta-inline h3{font-family:var(--serif);font-size:22px;color:#fff;margin:0 0 8px;font-weight:700}
+.cta-inline.cta-inline p{font-size:14.5px;color:#C9C3BD;margin:0}
 .cta-inline .btn{white-space:nowrap}
 
 .faq details{border-bottom:1px solid var(--line);padding:18px 0}
