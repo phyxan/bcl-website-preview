@@ -1,26 +1,28 @@
 /* ============================================================
    Peter Barrett Criminal Defense - site.css
-   Brand: antique gold on charcoal + ivory. Corporate, understated.
-   Accent drawn from the firm's Barrett Cazares Perez wordmark.
+   Brand: navy #112337 + warm gold. Bold Libre Franklin display type.
+   Matches the chosen homepage concept (AER-style navy & gold).
    ============================================================ */
 
 :root{
-  --gold:#A5832E;        /* deep antique gold - accents, fills, buttons */
-  --gold-dark:#7C5F23;   /* darker gold - links + small text on white */
-  --gold-soft:#D2B565;   /* light gold - accents on dark, gradients, hovers */
-  --gold-tint:#F6EFDD;   /* warm ivory - icon backgrounds, panels */
-  --ink:#1A1A1A;
-  --charcoal:#161616;
-  --charcoal-2:#1F1F1F;
-  --slate:#33322F;
-  --gray:#5A574F;
-  --gray-light:#8A867C;
+  --gold:#C8A15A;        /* warm gold - fills, buttons, icons, stars, on-dark accents */
+  --gold-dark:#9E7C3A;   /* darker gold - links + accent text on white */
+  --gold-soft:#E2C88C;   /* light gold - accents on dark, gradients, hovers */
+  --gold-tint:#F4ECD8;   /* soft cream - icon backgrounds, panels, statute chips */
+  --ink:#14202E;         /* navy-ink - headings on white */
+  --charcoal:#112337;    /* primary navy - header, footer, dark sections */
+  --charcoal-2:#0C1A2B;  /* deeper navy - top bar, panels */
+  --slate:#3A424C;
+  --gray:#5C6673;
+  --gray-light:#8A93A0;
   --paper:#FFFFFF;
-  --paper-warm:#FAF6EE;
-  --line:#E9E3D6;
-  --line-dark:rgba(255,255,255,.12);
+  --paper-warm:#F5F2EA;
+  --line:#E6E2D8;
+  --line-dark:rgba(200,161,90,.20);
   --green:#1E7B4D;
-  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  /* --serif holds the Libre Franklin display stack so existing heading rules pick it up */
+  --serif:"Libre Franklin",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Libre Franklin",system-ui,sans-serif;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --shadow-sm:0 2px 8px rgba(28,28,28,.06);
   --shadow-md:0 10px 30px rgba(28,28,28,.10);
@@ -46,10 +48,10 @@ a:hover{color:var(--gold)}
 .dashes.single::after{display:none}
 
 /* ---------- top strip ---------- */
-.topstrip{background:var(--gold);color:#17140A;font-size:13.5px;font-weight:700}
-.topstrip .wrap{display:flex;justify-content:space-between;align-items:center;padding:8px 24px;gap:16px}
-.topstrip a{color:#17140A;text-decoration:none;white-space:nowrap}
-.topstrip a:hover{color:#000}
+.topstrip{background:var(--charcoal-2);color:#C7D0DB;font-size:13.5px;font-weight:600}
+.topstrip .wrap{display:flex;justify-content:space-between;align-items:center;padding:9px 24px;gap:16px}
+.topstrip a{color:var(--gold-soft);text-decoration:none;white-space:nowrap;font-weight:700}
+.topstrip a:hover{color:#fff}
 .topstrip .left{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 
 /* ---------- header ---------- */
@@ -119,10 +121,10 @@ nav.main .sub a{padding:10px 14px;font-size:14px;color:#D9D9D9}
 section{padding:96px 0}
 section.tight{padding:72px 0}
 .alt{background:var(--paper-warm)}
-.kicker{display:flex;align-items:center;gap:12px;color:var(--gold);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;margin-bottom:16px}
+.kicker{display:flex;align-items:center;gap:12px;color:var(--gold-dark);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;margin-bottom:16px}
 .kicker::before{content:"";width:26px;height:4px;background:var(--gold);border-radius:2px}
 h2.title{font-family:var(--serif);font-size:clamp(30px,3.4vw,44px);line-height:1.12;color:var(--ink);font-weight:700;margin-bottom:18px;max-width:780px}
-h2.title .accent{color:var(--gold)}
+h2.title .accent{color:var(--gold-dark)}
 .section-lede{font-size:17.5px;color:var(--gray);max-width:700px;margin-bottom:52px}
 .center{text-align:center}
 .center .kicker{justify-content:center}
@@ -141,7 +143,7 @@ h2.title .accent{color:var(--gold)}
 .pcard:hover .icon svg{color:#fff}
 .pcard h3{font-family:var(--serif);font-size:22px;color:var(--ink);margin-bottom:10px;font-weight:700}
 .pcard p{font-size:14.5px;color:var(--gray);line-height:1.65;margin-bottom:18px}
-.pcard .more{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:8px}
+.pcard .more{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);display:inline-flex;align-items:center;gap:8px}
 .pcard .more::after{content:"→";transition:transform .2s}
 .pcard:hover .more::after{transform:translateX(4px)}
 
@@ -153,7 +155,7 @@ h2.title .accent{color:var(--gold)}
 .featlist{list-style:none;display:grid;gap:10px}
 .featlist li{display:flex;gap:18px;padding:20px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);transition:.2s}
 .featlist li:hover{box-shadow:var(--shadow-sm);border-color:#F0C9AC}
-.featlist .fnum{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--gold);min-width:36px;line-height:1.2}
+.featlist .fnum{font-family:var(--serif);font-size:26px;font-weight:800;color:var(--gold-dark);min-width:36px;line-height:1.2}
 .featlist svg{width:30px;height:30px;color:var(--gold);flex-shrink:0;margin-top:2px}
 .featlist h4{font-family:var(--serif);font-size:18.5px;color:var(--ink);margin-bottom:5px;font-weight:700}
 .featlist p{font-size:14px;color:var(--gray);line-height:1.6}
@@ -194,7 +196,7 @@ h2.title .accent{color:var(--gold)}
 .bcard .bmeta{font-size:12px;color:var(--gray-light);font-weight:600;margin-bottom:10px;display:flex;gap:14px}
 .bcard h3{font-family:var(--serif);font-size:19.5px;line-height:1.3;color:var(--ink);margin-bottom:10px;font-weight:700}
 .bcard p{font-size:14px;color:var(--gray);line-height:1.6;flex:1;margin-bottom:16px}
-.bcard .more{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.bcard .more{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark)}
 
 /* ---------- CTA band ---------- */
 .ctaband{background:linear-gradient(135deg,#1C1A15 0%,#100E0A 100%);color:#fff;position:relative;overflow:hidden}
@@ -234,12 +236,12 @@ footer.site .legal .wrap{display:grid;gap:8px}
 .crumbs{padding:18px 0;font-size:12.5px;color:var(--gray-light);border-bottom:1px solid var(--line);background:#fff}
 .crumbs a{color:var(--gray)}
 .crumbs a:hover{color:var(--gold)}
-.crumbs .sep{margin:0 8px;color:var(--gold)}
+.crumbs .sep{margin:0 8px;color:var(--gold-dark)}
 .arthero{background:var(--paper-warm);padding:56px 0 44px;border-bottom:1px solid var(--line)}
 .arthero .wrap{max-width:860px}
 .arthero .tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
 .arthero .tags span{background:#fff;border:1px solid var(--line);color:var(--gold-dark);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;border-radius:3px}
-.arthero .tags span.solid{background:var(--gold);border-color:var(--gold);color:#fff}
+.arthero .tags span.solid{background:var(--gold);border-color:var(--gold);color:#17140A}
 .arthero h1{font-family:var(--serif);font-size:clamp(32px,4.2vw,48px);line-height:1.12;color:var(--ink);font-weight:700;margin-bottom:18px}
 .arthero .lede{font-size:18.5px;color:var(--gray);line-height:1.7;margin-bottom:26px}
 .byline{display:flex;align-items:center;gap:16px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}
@@ -279,7 +281,7 @@ article.post a:hover{text-decoration-color:var(--gold)}
 .faq details{border-bottom:1px solid var(--line);padding:18px 0}
 .faq summary{cursor:pointer;font-family:var(--serif);font-size:18.5px;font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:18px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";color:var(--gold);font-size:26px;font-weight:400;flex-shrink:0;transition:transform .2s}
+.faq summary::after{content:"+";color:var(--gold-dark);font-size:26px;font-weight:400;flex-shrink:0;transition:transform .2s}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq details p{margin:12px 0 0;font-size:15px}
 
