@@ -53,11 +53,16 @@ nav a:hover{color:var(--gold-soft)}
 .btn.lg{padding:17px 32px;font-size:15px}
 
 /* HERO with Dallas skyline behind photo */
-.hero{position:relative;background:linear-gradient(115deg,var(--navy-2) 0%,var(--navy) 55%,#173257 100%);color:#fff;overflow:hidden}
-.hero .wrap{position:relative;z-index:3;display:grid;grid-template-columns:1.06fr .94fr;gap:40px;align-items:center;padding:70px 24px 76px;min-height:560px}
+.hero{position:relative;color:#fff;overflow:hidden;background-color:var(--navy-2)}
+.hero .bg{position:absolute;inset:0;z-index:0;background:url('assets/img/dallas-hero.jpg') center 28%/cover no-repeat}
+.hero .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(8,16,27,.95) 0%, rgba(11,22,37,.82) 34%, rgba(11,22,37,.42) 62%, rgba(11,22,37,.30) 100%),
+    linear-gradient(0deg, var(--navy-2) 1%, rgba(9,17,28,.55) 16%, rgba(9,17,28,0) 42%),
+    radial-gradient(820px 460px at 74% 42%, rgba(200,161,90,.20), transparent 62%)}
+.hero .wrap{position:relative;z-index:3;display:grid;grid-template-columns:1.08fr .92fr;gap:44px;align-items:center;padding:88px 24px 96px;min-height:600px}
 .skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:230px;z-index:1;opacity:.9;pointer-events:none}
 .skyline svg{width:100%;height:100%}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(760px 400px at 78% 40%,rgba(200,161,90,.16),transparent 60%);z-index:1;pointer-events:none}
 .eyebrow{display:inline-flex;align-items:center;gap:11px;color:var(--gold-soft);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:20px}
 .eyebrow::before{content:"";width:36px;height:2px;background:var(--gold)}
 .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,6.4vw,84px);line-height:.98;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:20px}
@@ -228,55 +233,9 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 </header>
 
 <section class="hero">
-  <!-- creative Dallas skyline behind the cover -->
-  <div class="skyline" aria-hidden="true">
-    <svg viewBox="0 0 1440 230" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="rgba(200,161,90,.55)" stroke-width="2">
-        <!-- left cluster -->
-        <path d="M40 230V150h34v80M52 150v-14M74 172h30v58M104 172v-10"/>
-        <rect x="120" y="120" width="40" height="110"/>
-        <path d="M128 120v-12h24v12"/>
-        <rect x="176" y="160" width="26" height="70"/>
-        <!-- Fountain Place style prism -->
-        <path d="M224 230L224 96 262 70 300 96 300 230"/>
-        <path d="M224 96 262 118 300 96"/>
-        <!-- Renaissance Tower twin antennas -->
-        <rect x="330" y="104" width="54" height="126"/>
-        <path d="M338 104v-26M376 104v-26M330 118h54"/>
-        <rect x="404" y="150" width="30" height="80"/>
-        <!-- Bank of America Plaza (tall, setbacks) -->
-        <path d="M470 230V64h50v166M470 64h50M478 64v-30h34v30M486 34v-16h18v16"/>
-        <path d="M470 100h50M470 140h50M470 180h50"/>
-        <rect x="540" y="150" width="34" height="80"/>
-        <rect x="584" y="130" width="26" height="100"/>
-        <!-- Reunion Tower (ball on lattice) -->
-        <path d="M660 230V120M690 230V120"/>
-        <path d="M660 150h30M660 180h30M660 210h30"/>
-        <circle cx="675" cy="104" r="26"/>
-        <path d="M652 100h46M655 90h40M655 118h40"/>
-        <!-- mid towers -->
-        <rect x="730" y="140" width="34" height="90"/>
-        <path d="M747 140v-16"/>
-        <rect x="784" y="110" width="44" height="120"/>
-        <path d="M784 110h44M806 110v-18"/>
-        <path d="M848 230V88 L876 74 904 88 V230"/>
-        <path d="M848 130h56M848 172h56"/>
-        <rect x="924" y="150" width="30" height="80"/>
-        <!-- right cluster -->
-        <path d="M980 230V116l40-22 40 22V230"/>
-        <path d="M980 156h80M980 194h80M1020 94v-16"/>
-        <rect x="1084" y="140" width="34" height="90"/>
-        <rect x="1138" y="120" width="40" height="110"/>
-        <path d="M1146 120v-14h24v14"/>
-        <path d="M1200 230V150 L1226 132 1252 150 V230"/>
-        <rect x="1276" y="160" width="28" height="70"/>
-        <rect x="1324" y="138" width="40" height="92"/>
-        <path d="M1344 138v-18"/>
-        <rect x="1384" y="168" width="26" height="62"/>
-      </g>
-      <line x1="0" y1="230" x2="1440" y2="230" stroke="rgba(200,161,90,.5)" stroke-width="2"/>
-    </svg>
-  </div>
+  <!-- real darkened Dallas night skyline behind the cover -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="scrim" aria-hidden="true"></div>
 
   <div class="wrap">
     <div>
