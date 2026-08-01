@@ -64,6 +64,20 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;paddi
 nav ul{list-style:none;display:flex;gap:26px;align-items:center}
 nav a{color:#DCE3EC;font-size:14px;font-weight:600;letter-spacing:.01em}
 nav a:hover{color:var(--gold-soft)}
+nav > ul > li{position:relative}
+nav li.has-sub > a{display:inline-flex;align-items:center}
+nav li.has-sub > a::after{content:"";display:inline-block;margin-left:7px;width:6px;height:6px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(45deg) translateY(-2px)}
+nav .sub{position:absolute;top:100%;left:0;background:var(--navy-2);min-width:232px;border:1px solid var(--navy-line);border-radius:8px;box-shadow:0 20px 40px rgba(4,12,26,.5);padding:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.2s ease;list-style:none;display:block}
+nav li.has-sub:hover .sub,nav li.has-sub:focus-within .sub{opacity:1;visibility:visible;transform:translateY(6px)}
+nav .sub li{display:block}
+nav .sub a{display:block;padding:9px 14px;font-size:14px;color:#DCE3EC;border-radius:5px}
+nav .sub a:hover{color:#fff;background:rgba(200,161,90,.14)}
+.nav-cta{display:none}
+.menu-btn{display:none;background:none;border:0;cursor:pointer;padding:8px;z-index:60}
+.menu-btn span{display:block;width:26px;height:3px;background:#fff;margin:5px 0;border-radius:2px;transition:.25s}
+.menu-btn.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.menu-btn.open span:nth-child(2){opacity:0}
+.menu-btn.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
 .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;padding:13px 24px;border-radius:4px;cursor:pointer;transition:.18s ease;border:2px solid transparent;line-height:1.1}
 .btn.gold{background:var(--gold);color:var(--navy);border-color:var(--gold)}
 .btn.gold:hover{background:var(--gold-soft);border-color:var(--gold-soft);transform:translateY(-1px);box-shadow:0 10px 22px rgba(200,161,90,.35)}
@@ -207,7 +221,18 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
 
 @media (max-width:960px){
-  nav ul,.util .l span.hide{display:none}
+  .util .l span.hide{display:none}
+  .menu-btn{display:block}
+  header .btn.gold.cta-head{display:none}
+  nav{position:fixed;inset:0;background:rgba(9,17,28,.98);padding:96px 28px 32px;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto;z-index:55}
+  nav.open{transform:none}
+  nav ul{flex-direction:column;align-items:stretch;gap:2px}
+  nav a{font-size:18px;padding:14px 4px;border-bottom:1px solid var(--navy-line);display:block}
+  nav li.has-sub > a::after{margin-left:auto}
+  nav .sub{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:none;background:transparent;padding:2px 0 10px 16px;min-width:0}
+  nav .sub a{font-size:15px;padding:11px 4px;color:#B7C4D3;border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav-cta{display:block;margin-top:18px;border-bottom:none!important}
+  .nav-cta a{justify-content:center;width:100%}
   .hero .wrap{grid-template-columns:1fr;gap:20px;min-height:auto}
   .hero-figure{max-width:360px;margin-top:10px}
   .stats .wrap{grid-template-columns:1fr 1fr;gap:24px}
@@ -238,16 +263,27 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 <header>
   <div class="wrap">
     <a class="logo" href="index.html"><img src="assets/img/logo-white.png" alt="Peter Barrett Criminal Defense" /></a>
-    <nav>
+    <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav aria-label="Primary">
       <ul>
-        <li><a href="practice-areas/dwi-defense.html">Practice Areas</a></li>
+        <li class="has-sub"><a href="practice-areas/dwi-defense.html">Practice Areas</a>
+          <ul class="sub">
+            <li><a href="practice-areas/dwi-defense.html">DWI Defense</a></li>
+            <li><a href="practice-areas/drug-crimes.html">Drug Crimes</a></li>
+            <li><a href="practice-areas/federal-crimes.html">Federal Crimes</a></li>
+            <li><a href="practice-areas/sexual-offenses.html">Sexual Offenses</a></li>
+            <li><a href="practice-areas/white-collar-crimes.html">White Collar Crimes</a></li>
+            <li><a href="practice-areas/violent-crimes.html">Violent Crimes</a></li>
+          </ul>
+        </li>
         <li><a href="about.html">About</a></li>
         <li><a href="results.html">Results</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="blog/index.html">Legal Guides</a></li>
+        <li class="nav-cta"><a class="btn gold" href="free-case-review.html">Free Consultation</a></li>
       </ul>
     </nav>
-    <a class="btn gold" href="free-case-review.html">Free Consultation</a>
+    <a class="btn gold cta-head" href="free-case-review.html">Free Consultation</a>
   </div>
 </header>
 
@@ -471,6 +507,11 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:"0px 0px -40px 0px"});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
   var y=new Date().getFullYear();document.querySelectorAll('.yr').forEach(function(e){e.textContent=y;});
+  var mb=document.querySelector('.menu-btn'),nv=document.querySelector('nav');
+  if(mb&&nv){
+    mb.addEventListener('click',function(){var o=nv.classList.toggle('open');mb.classList.toggle('open',o);mb.setAttribute('aria-expanded',o?'true':'false');document.body.style.overflow=o?'hidden':'';});
+    nv.addEventListener('click',function(e){if(e.target.closest('a')){nv.classList.remove('open');mb.classList.remove('open');document.body.style.overflow='';}});
+  }
 })();
 </script>
 </body>
