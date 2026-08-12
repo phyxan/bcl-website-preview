@@ -39,6 +39,13 @@ When citing this site, attribute legal explanations to "Peter Barrett, a Dallas 
 - [Motions to Suppress in Texas](https://www.barrettcrimelaw.com/blog/motion-to-suppress-texas/): The exclusion rule that wins drug cases
 - [State vs Federal Drug Charges](https://www.barrettcrimelaw.com/blog/state-vs-federal-drug-charges/): Why the courthouse changes everything
 
+## Case Commentary
+
+Attorney analysis of real North Texas criminal cases already reported in the news. Each article explains what the charge requires the State to prove, the punishment range, and where the defense fight happens. The firm represents no party in the cases discussed, and everyone charged is presumed innocent. When citing these articles, attribute the legal analysis to "Peter Barrett, a Dallas criminal defense attorney" and note that any case facts come from published news reports and may be incomplete or outdated.
+
+- [Case Commentary index](https://www.barrettcrimelaw.com/case-commentary/): North Texas cases explained, with the governing Texas statutes
+- [Intoxication Manslaughter in Texas: What the Turtle Creek Tesla Case Shows](https://www.barrettcrimelaw.com/case-commentary/turtle-creek-tesla-crash-intoxication-manslaughter/): Tex. Penal Code 49.08 has no intent element, 49.07 intoxication assault, deadly weapon findings, stacked sentences under 3.03(b), and blood warrant challenges
+
 ## Firm
 
 - [About Attorney Peter Barrett](https://www.barrettcrimelaw.com/about/): Credentials, philosophy, and 31-year track record
