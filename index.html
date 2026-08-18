@@ -18,7 +18,7 @@
   "@graph": [
     {"@type":"WebSite","@id":"https://www.barrettcrimelaw.com/#website","url":"https://www.barrettcrimelaw.com/","name":"Peter Barrett Criminal Defense","publisher":{"@id":"https://www.barrettcrimelaw.com/#firm"}},
     {"@type":["LegalService","LocalBusiness"],"@id":"https://www.barrettcrimelaw.com/#firm","name":"Peter Barrett Criminal Defense","url":"https://www.barrettcrimelaw.com/","logo":"https://www.barrettcrimelaw.com/wp-content/uploads/2022/07/logo-new-white.png","image":"https://www.barrettcrimelaw.com/wp-content/uploads/2022/07/LowRez_PeterBarrett-new.jpg","telephone":"+1-214-526-0555","priceRange":"Free consultation","address":{"@type":"PostalAddress","streetAddress":"3500 Maple Ave, Suite 550","addressLocality":"Dallas","addressRegion":"TX","postalCode":"75219","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":32.8049,"longitude":-96.8094},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"18:00"}],"areaServed":[{"@type":"AdministrativeArea","name":"Dallas County"},{"@type":"AdministrativeArea","name":"Collin County"},{"@type":"AdministrativeArea","name":"Denton County"},{"@type":"AdministrativeArea","name":"Tarrant County"},{"@type":"AdministrativeArea","name":"Rockwall County"}],"founder":{"@id":"https://www.barrettcrimelaw.com/#attorney"},"knowsLanguage":["en","es"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.6","reviewCount":"88","bestRating":"5"},"sameAs":["https://www.avvo.com/attorneys/75219-tx-peter-barrett-66549.html","https://profiles.superlawyers.com/texas/dallas/lawyer/peter-m-barrett/0c024ec3-f0eb-4b83-86eb-214021826cc7.html"]},
-    {"@type":"Attorney","@id":"https://www.barrettcrimelaw.com/#attorney","name":"Peter Michael Barrett","jobTitle":"Criminal Defense Attorney","image":"https://www.barrettcrimelaw.com/wp-content/uploads/2022/07/LowRez_PeterBarrett-new.jpg","url":"https://www.barrettcrimelaw.com/about/","worksFor":{"@id":"https://www.barrettcrimelaw.com/#firm"},"knowsLanguage":["en","es"],"knowsAbout":["Criminal Defense","DWI Defense","Drug Crimes","Federal Crimes","Sexual Offense Defense","White Collar Crime","Violent Crimes"],"memberOf":[{"@type":"Organization","name":"Dallas Criminal Defense Lawyers Association"},{"@type":"Organization","name":"State Bar of Texas"},{"@type":"Organization","name":"Texas Criminal Defense Lawyers Association"}],"award":["AV Preeminent, Martindale-Hubbell","Avvo 10.0 Superb Rating","Super Lawyers, Thomson Reuters (2022-2026)","The National Top 100 Trial Lawyers","D Magazine Best Lawyers in Dallas (2023)"],"sameAs":["https://www.avvo.com/attorneys/75219-tx-peter-barrett-66549.html","https://profiles.superlawyers.com/texas/dallas/lawyer/peter-m-barrett/0c024ec3-f0eb-4b83-86eb-214021826cc7.html"]},
+    {"@type":"Attorney","@id":"https://www.barrettcrimelaw.com/#attorney","name":"Peter Michael Barrett","jobTitle":"Criminal Defense Attorney","image":"https://www.barrettcrimelaw.com/wp-content/uploads/2022/07/LowRez_PeterBarrett-new.jpg","url":"https://www.barrettcrimelaw.com/about/","worksFor":{"@id":"https://www.barrettcrimelaw.com/#firm"},"knowsLanguage":["en","es"],"knowsAbout":["Criminal Defense","DWI Defense","Drug Crimes","Federal Crimes","Sexual Offense Defense","White Collar Crime","Violent Crimes"],"memberOf":[{"@type":"Organization","name":"Dallas Criminal Defense Lawyers Association"},{"@type":"Organization","name":"State Bar of Texas"},{"@type":"Organization","name":"Texas Criminal Defense Lawyers Association"}],"award":["AV Preeminent, Martindale-Hubbell","Avvo 10.0 Superb Rating","Super Lawyers, Thomson Reuters (2022-2026)","#1 Attorney of the Year, National Top 100 Lawyers","D Magazine Best Lawyers in Dallas (2023)"],"sameAs":["https://www.avvo.com/attorneys/75219-tx-peter-barrett-66549.html","https://profiles.superlawyers.com/texas/dallas/lawyer/peter-m-barrett/0c024ec3-f0eb-4b83-86eb-214021826cc7.html"]},
     {"@type":"FAQPage","mainEntity":[
       {"@type":"Question","name":"How much does a criminal defense lawyer cost in Dallas?","acceptedAnswer":{"@type":"Answer","text":"Most cases are handled on a flat fee that depends on the charge, the court, and whether trial is likely. The initial consultation is free, so you will know what your case involves before you spend anything."}},
       {"@type":"Question","name":"What should I do right after an arrest?","acceptedAnswer":{"@type":"Answer","text":"Say that you are choosing to remain silent, ask for a lawyer, and do not consent to searches or discuss your case on jail phones. Then call a defense attorney. Some deadlines, like the 15-day DWI license hearing, start immediately."}},
@@ -125,6 +125,14 @@ nav .sub a:hover{color:#fff;background:rgba(200,161,90,.14)}
 
 /* sections */
 section{padding:88px 0}
+.tclist{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px 30px;margin-top:40px;padding:0}
+.tclist li{position:relative;padding:11px 0 11px 26px;border-bottom:1px solid var(--line);color:var(--slate);font-size:16px}
+.tclist li:before{content:"";position:absolute;left:4px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.tclist a{color:var(--ink);text-decoration:none;font-weight:600}
+.tclist a:hover{color:var(--gold-deep)}
+@media(max-width:900px){.tclist{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.tclist{grid-template-columns:1fr}}
+
 .ey{display:inline-block;color:var(--gold-deep);font-family:var(--display);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;margin-bottom:12px}
 h2.t{font-family:var(--display);font-size:clamp(30px,3.7vw,46px);font-weight:800;letter-spacing:-.01em;color:var(--navy);line-height:1.06;margin-bottom:16px}
 .lead{font-size:17.5px;color:var(--gray);max-width:660px;line-height:1.7}
@@ -296,9 +304,9 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
   <div class="wrap">
     <div>
       <div class="eyebrow reveal">Dallas Criminal Defense Attorney</div>
-      <h1 class="reveal">Protect Your <span class="gold">Freedom</span></h1>
+      <h1 class="reveal">Most Cases Never <span class="gold">Go to Trial</span></h1>
       <p class="sub reveal"><b>Award-winning Dallas trial lawyer with 31 years of experience and more than 100 jury trials.</b> State charges. Federal indictments. Handled personally, in English or Spanish.</p>
-      <p class="micro reveal">When you or someone you love is arrested, the State starts building its case immediately. The sooner an experienced defense lawyer steps in, the more can be done to protect you.</p>
+      <p class="micro reveal">The lawyer who is genuinely prepared to try your case is the one who changes what the prosecutor is willing to offer. That is true whether or not you ever see a jury. The earlier Peter Barrett is involved, the more he can do to protect you.</p>
       <div class="cta-row reveal">
         <a class="btn gold lg" href="free-case-review/">Get a Free Consultation</a>
         <a class="phone" href="tel:+12145260555">
@@ -329,7 +337,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
     <div class="badge2 reveal"><div class="top">Martindale</div><div class="mid">AV Preeminent</div><div class="bot">Peer Rated</div></div>
     <div class="badge2 reveal"><div class="top">Avvo</div><div class="mid">10.0 Superb</div><div class="bot">Top Rating</div></div>
     <div class="badge2 reveal"><div class="top">Super Lawyers</div><div class="mid">2022 – 2026</div><div class="bot">Thomson Reuters</div></div>
-    <div class="badge2 reveal"><div class="top">National</div><div class="mid">Top 100</div><div class="bot">Trial Lawyers</div></div>
+    <div class="badge2 reveal"><div class="top">National Top 100</div><div class="mid">#1 Attorney</div><div class="bot">of the Year</div></div>
     <div class="badge2 reveal"><div class="top">D Magazine</div><div class="mid">Best Lawyers</div><div class="bot">Dallas 2023</div></div>
     <div class="badge2 reveal"><div class="top">DCDLA</div><div class="mid">President</div><div class="bot">2005</div></div>
   </div>
@@ -378,7 +386,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
     </div>
   </div>
 </section>
-<section class="alt" id="significant-cases">
+<section id="significant-cases" style="background:var(--cream);padding-top:56px">
   <div class="wrap center">
     <span class="ey reveal">In the News</span>
     <h2 class="t reveal">Peter Barrett's significant cases</h2>
@@ -398,9 +406,9 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V2"/><path d="M7 2h10"/></svg></div>
         <h3>Cartel boss and 27 others charged in a $10M drug scheme</h3><p>The Dallas Morning News</p><span class="go">Read the coverage →</span>
       </a>
-      <a class="pa" href="practice-areas/violent-crimes/">
+      <a class="pa" href="https://www.nbcdfw.com/news/local/four-teens-charged-with-capital-murder-in-fatal-robbery-outside-dallas-costco/2820052/" target="_blank" rel="noopener">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <h3>Four teens charged with capital murder in a fatal Dallas robbery</h3><p>Reported in the Dallas press</p><span class="go">About these charges →</span>
+        <h3>Four teens charged with capital murder in a fatal Dallas robbery</h3><p>NBC DFW</p><span class="go">Read the coverage →</span>
       </a>
     </div>
   </div>
@@ -430,6 +438,33 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <h3>The resources to defend you</h3><p>Where a case goes to trial, the firm can associate forensic accountants, investigators and other experts to give you the most thorough representation.</p>
       </div>
+    </div>
+  </div>
+</section>
+<section id="texas-crimes" style="padding-top:64px">
+  <div class="wrap center">
+    <span class="ey reveal">Texas Crimes</span>
+    <h2 class="t reveal">Ready to defend you against most criminal charges</h2>
+    <p class="lead reveal">Peter Barrett has defended clients across the Dallas-Fort Worth area and throughout Texas for 31 years, in state and federal court.</p>
+  </div>
+  <div class="wrap">
+    <div class="reveal">
+      <ul class="tclist">
+        <li><a href="practice-areas/federal-crimes/">Federal crimes</a></li>
+        <li><a href="practice-areas/sexual-offenses/">Child sexual assault</a></li>
+        <li><a href="practice-areas/federal-crimes/">Federal fraud</a></li>
+        <li><a href="practice-areas/sexual-offenses/">Sex crimes</a></li>
+        <li><a href="practice-areas/white-collar-crimes/">Fraud and business crime</a></li>
+        <li><a href="practice-areas/violent-crimes/">Manslaughter</a></li>
+        <li><a href="practice-areas/white-collar-crimes/">Embezzlement</a></li>
+        <li>Violations of probation</li>
+        <li><a href="practice-areas/federal-crimes/">Federal drug conspiracy</a></li>
+        <li><a href="practice-areas/drug-crimes/">Drug offenses</a></li>
+        <li><a href="practice-areas/white-collar-crimes/">Identity theft</a></li>
+        <li>Organized crime</li>
+        <li><a href="practice-areas/sexual-offenses/">Child pornography</a></li>
+        <li>Criminal appeals</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -477,9 +512,9 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
   </div>
   <div class="wrap">
     <div class="rev reveal">
-      <div class="review"><div class="stars">★★★★★</div><p>"I want to thank Mr. Barrett for his flexibility and for taking the time to really listen to our case. He is very attentive, responsive, and got us the best results in our case (full dismissal). He is..."</p><cite><b>LTee75</b>Google · February 2026</cite></div>
-      <div class="review"><div class="stars">★★★★★</div><p>"A+. I deal with numerous attorneys across the nation and Peter is one of the finest. Quick to analyze the facts and articulate sound legal arguments. I sent a very demanding client facing two charges. Without..."</p><cite><b>Chris Cowan</b>Google · June 2025</cite></div>
-      <div class="review"><div class="stars">★★★★★</div><p>"A year ago on this month Peter Barret saved my life and freedom by getting serious charges dismissed. It took about 3 years and things were difficult, but with his guidance and support he helped me a lot..."</p><cite><b>Joe R</b>Google · February 2025</cite></div>
+      <div class="review"><div class="stars">★★★★★</div><p>"I want to thank Mr. Barrett for his flexibility and for taking the time to really listen to our case. He is very attentive, responsive, and got us the best results in our case (full dismissal). He is..."</p><cite><b>L.</b>Google · February 2026</cite></div>
+      <div class="review"><div class="stars">★★★★★</div><p>"A+. I deal with numerous attorneys across the nation and Peter is one of the finest. Quick to analyze the facts and articulate sound legal arguments. I sent a very demanding client facing two charges. Without..."</p><cite><b>C.C.</b>Google · June 2025</cite></div>
+      <div class="review"><div class="stars">★★★★★</div><p>"A year ago on this month Peter Barret saved my life and freedom by getting serious charges dismissed. It took about 3 years and things were difficult, but with his guidance and support he helped me a lot..."</p><cite><b>J.R.</b>Google · February 2025</cite></div>
     </div>    <div class="gwrap reveal">
       <span class="pill"><span class="g">★ 4.6</span> Google · 88 client reviews</span>
       <span class="pill"><span class="g">10.0</span> Avvo Superb Rating</span>
