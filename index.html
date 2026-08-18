@@ -125,6 +125,11 @@ nav .sub a:hover{color:#fff;background:rgba(200,161,90,.14)}
 
 /* sections */
 section{padding:88px 0}
+#significant-cases .pgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+#significant-cases .pa{flex:0 1 calc(33.333% - 11px)}
+@media(max-width:900px){#significant-cases .pa{flex:0 1 calc(50% - 8px)}}
+@media(max-width:600px){#significant-cases .pa{flex:0 1 100%}}
+
 .tclist{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px 30px;margin-top:40px;padding:0}
 .tclist li{position:relative;padding:11px 0 11px 26px;border-bottom:1px solid var(--line);color:var(--slate);font-size:16px}
 .tclist li:before{content:"";position:absolute;left:4px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
@@ -305,7 +310,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
     <div>
       <div class="eyebrow reveal">Dallas Criminal Defense Attorney</div>
       <h1 class="reveal">Most Cases Never <span class="gold">Go to Trial</span></h1>
-      <p class="sub reveal"><b>Award-winning Dallas trial lawyer with 31 years of experience and more than 100 jury trials.</b> State charges. Federal indictments. Handled personally, in English or Spanish.</p>
+      <p class="sub reveal"><b>Award-winning Dallas criminal defense attorney with 31 years and more than 100 jury trials.</b> Prosecutors negotiate differently when they know a lawyer will try the case. State charges. Federal indictments. Handled personally, in English or Spanish.</p>
       <p class="micro reveal">The lawyer who is genuinely prepared to try your case is the one who changes what the prosecutor is willing to offer. That is true whether or not you ever see a jury. The earlier Peter Barrett is involved, the more he can do to protect you.</p>
       <div class="cta-row reveal">
         <a class="btn gold lg" href="free-case-review/">Get a Free Consultation</a>
@@ -389,8 +394,8 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 <section id="significant-cases" style="background:var(--cream);padding-top:56px">
   <div class="wrap center">
     <span class="ey reveal">In the News</span>
-    <h2 class="t reveal">Peter Barrett's significant cases</h2>
-    <p class="lead reveal">Cases from the practice that drew coverage in the press and from federal prosecutors. Reporting is linked at the original source.</p>
+    <h2 class="t reveal">Significant cases in the news</h2>
+    <p class="lead reveal">Matters that drew coverage from Dallas newsrooms and federal prosecutors. Every headline links to the original report.</p>
   </div>
   <div class="wrap">
     <div class="pgrid reveal">
@@ -405,6 +410,10 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
       <a class="pa" href="https://www.dallasnews.com/news/crime/2020/08/29/cartel-boss-27-others-charged-in-10-million-drug-scheme-involving-dallas-western-wear-store/" target="_blank" rel="noopener">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V2"/><path d="M7 2h10"/></svg></div>
         <h3>Cartel boss and 27 others charged in a $10M drug scheme</h3><p>The Dallas Morning News</p><span class="go">Read the coverage →</span>
+      </a>
+      <a class="pa" href="https://www.fox4news.com/news/turtle-creek-fatal-crash-tesla-preston-petty" target="_blank" rel="noopener">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l2-6h10l2 6"/><path d="M3 11h18v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M7 15h.01"/><path d="M17 15h.01"/></svg></div>
+        <h3>Speeding Tesla driver caused deadly Uptown Dallas crash, report says</h3><p>FOX 4 News</p><span class="go">Read the coverage →</span>
       </a>
       <a class="pa" href="https://www.nbcdfw.com/news/local/four-teens-charged-with-capital-murder-in-fatal-robbery-outside-dallas-costco/2820052/" target="_blank" rel="noopener">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
