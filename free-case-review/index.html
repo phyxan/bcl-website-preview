@@ -91,7 +91,12 @@
     <div class="form-shell reveal-l">
       <h3>Start your free case review</h3>
       <p class="sub">Fields marked <span style="color:var(--gold)">*</span> are required. Submitting this form does not create an attorney-client relationship.</p>
-      <form data-demo>
+      <form action="../form.php" method="post" data-intake>
+        <!-- Anti-spam honeypot: visually hidden, humans never fill it -->
+        <div class="hp" aria-hidden="true">
+          <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <input type="hidden" name="ts" value="" />
         <div class="fgrid">
           <div>
             <label for="f-name">Full name <span class="req">*</span></label>
@@ -149,14 +154,16 @@
           </div>
           <div class="full">
             <label class="consent">
-              <input type="checkbox" required />
+              <input type="checkbox" name="consent" value="yes" required />
               <span>I understand that submitting this form does not create an attorney-client relationship, and that I should not include highly sensitive details until the firm confirms representation. Information submitted is kept confidential.</span>
             </label>
           </div>
+          <div class="full"><div class="cf-turnstile-holder"></div></div>
           <div class="full">
             <button class="btn lg" type="submit" style="width:100%;justify-content:center">Send My Free Case Review</button>
           </div>
         </div>
+        <div class="form-error" role="alert" hidden></div>
         <div class="form-success" role="status">Thank you. Your case review request was received. We respond to most requests within one business hour during office hours, and we monitor after-hours messages for emergencies. If this is urgent, call (214) 526-0555 now.</div>
         <p class="form-note">Prefer to talk? Call <a href="tel:+12145260555">(214) 526-0555</a>. Hablamos Español. If someone you love is in custody right now, call instead of writing. It is faster.</p>
       </form>

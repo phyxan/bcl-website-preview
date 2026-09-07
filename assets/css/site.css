@@ -333,6 +333,11 @@ textarea{min-height:120px;resize:vertical}
 .consent input{width:auto;margin-top:3px}
 .form-note{font-size:12px;color:var(--gray-light);margin-top:14px;line-height:1.6}
 .form-success{display:none;background:#EBF7EF;border:1px solid #BBE3C8;color:var(--green);border-radius:var(--radius);padding:18px;font-weight:600;font-size:14.5px;margin-top:16px}
+.form-error{background:#FDEDED;border:1px solid #F5C2C0;color:#B42318;border-radius:var(--radius);padding:14px 16px;font-weight:600;font-size:14px;margin-top:16px}
+.form-error ul{margin:6px 0 0;padding-left:18px;font-weight:500}
+/* honeypot: off-screen, invisible to people, present for dumb bots */
+.hp{position:absolute!important;left:-9999px!important;top:auto;width:1px;height:1px;overflow:hidden}
+.field-invalid{border-color:#E5484D!important;box-shadow:0 0 0 3px rgba(229,72,77,.12)!important}
 
 /* ---------- animations ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.65,.3,1),transform .7s cubic-bezier(.2,.65,.3,1)}
