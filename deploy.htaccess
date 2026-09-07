@@ -20,7 +20,14 @@ DirectoryIndex index.html
   RewriteRule ^(.*)$ /$1/ [R=301,L]
 </IfModule>
 
-ErrorDocument 404 /404.html
+# 404 handling. ErrorDocument is overridden at the server level on this
+# GoDaddy account, tested and confirmed, so a rewrite to a small PHP shim is
+# what actually produces a 404 status with the branded page.
+<IfModule mod_rewrite.c>
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /404.php [L]
+</IfModule>
 
 # --- 301s from the old WordPress URLs ---------------------------------------
 # 67 rules. The 63 blog posts are absent on purpose: they are served
