@@ -45,6 +45,11 @@ $cfg = [
     'mailgun_domain'      => '',       // e.g. mg.barrettcrimelaw.com (transport = 'mailgun')
     'mailgun_api_key'     => '',       // Mailgun Sending API key
     'mailgun_region'      => 'us',     // 'us' or 'eu'
+    'db_enabled'          => true,     // also store each lead in a SQL database
+    'db_dsn'              => '',       // empty => SQLite at <secure>/leads.sqlite; or 'mysql:host=localhost;dbname=..;charset=utf8mb4'
+    'db_user'             => '',       // MySQL only
+    'db_pass'             => '',       // MySQL only
+    'turnstile_secret'    => '',       // Cloudflare Turnstile secret key; empty => CAPTCHA disabled
     'allowed_origins'     => [
         'https://www.barrettcrimelaw.com',
         'https://barrettcrimelaw.com',
@@ -238,6 +243,113 @@ function send_via_mailgun(array $cfg, string $subject, string $body, string $rep
     return [false, 'mailgun api http ' . $code . ($cerr !== '' ? " curl:$cerr" : '') . ' ' . substr((string) $resp, 0, 200)];
 }
 
+/**
+ * Persist the lead to a SQL database via PDO with prepared statements
+ * (injection-safe). Defaults to a first-party SQLite file under the secure dir;
+ * set db_dsn to a 'mysql:...' DSN (+ db_user/db_pass) to use MySQL. Returns success.
+ */
+function store_lead_db(array $cfg, string $secureDir, array $lead): bool
+{
+    $dsn  = (string) ($cfg['db_dsn'] ?? '');
+    $user = null;
+    $pass = null;
+    $sqlitePath = $secureDir . '/leads.sqlite';
+    if ($dsn === '') {
+        $dsn = 'sqlite:' . $sqlitePath;
+    } else {
+        $user = (string) ($cfg['db_user'] ?? '');
+        $pass = (string) ($cfg['db_pass'] ?? '');
+    }
+    $isSqlite = str_starts_with($dsn, 'sqlite:');
+    try {
+        $pdo = new \PDO($dsn, $user ?: null, $pass ?: null, [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_TIMEOUT => 5,
+        ]);
+        if ($isSqlite) {
+            $pdo->exec('PRAGMA journal_mode=WAL');
+            $pdo->exec(
+                'CREATE TABLE IF NOT EXISTS leads (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    received_at TEXT, name TEXT, phone TEXT, email TEXT,
+                    county TEXT, charge TEXT, status TEXT, message TEXT,
+                    ip TEXT, user_agent TEXT, origin TEXT,
+                    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+                )'
+            );
+        } else {
+            $pdo->exec(
+                'CREATE TABLE IF NOT EXISTS leads (
+                    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                    received_at VARCHAR(40) NULL, name VARCHAR(120), phone VARCHAR(40),
+                    email VARCHAR(254), county VARCHAR(40), charge VARCHAR(60),
+                    status VARCHAR(60), message TEXT, ip VARCHAR(45),
+                    user_agent VARCHAR(300), origin VARCHAR(255),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
+            );
+        }
+        $st = $pdo->prepare(
+            'INSERT INTO leads
+                (received_at,name,phone,email,county,charge,status,message,ip,user_agent,origin)
+             VALUES
+                (:received_at,:name,:phone,:email,:county,:charge,:status,:message,:ip,:user_agent,:origin)'
+        );
+        $st->execute([
+            ':received_at' => $lead['received_at'],
+            ':name'        => $lead['name'],
+            ':phone'       => $lead['phone'],
+            ':email'       => $lead['email'],
+            ':county'      => $lead['county'],
+            ':charge'      => $lead['charge'],
+            ':status'      => $lead['status'],
+            ':message'     => $lead['message'],
+            ':ip'          => $lead['ip'],
+            ':user_agent'  => $lead['user_agent'],
+            ':origin'      => $lead['origin'],
+        ]);
+        if ($isSqlite) {
+            @chmod($sqlitePath, 0600);
+        }
+        return true;
+    } catch (\Throwable $e) {
+        log_error($cfg, 'db store failed: ' . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Verify a Cloudflare Turnstile token server-side. Only called when a secret is
+ * configured. Returns true only on a positive verdict from Cloudflare.
+ */
+function verify_turnstile(array $cfg, string $token, string $ip): bool
+{
+    if ($token === '' || !function_exists('curl_init')) {
+        return false;
+    }
+    $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => http_build_query([
+            'secret'   => (string) $cfg['turnstile_secret'],
+            'response' => $token,
+            'remoteip' => $ip,
+        ]),
+        CURLOPT_CONNECTTIMEOUT => 8,
+        CURLOPT_TIMEOUT        => 12,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+    ]);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+    if (!is_string($resp)) {
+        return false;
+    }
+    $data = json_decode($resp, true);
+    return is_array($data) && !empty($data['success']);
+}
+
 // --- Method / transport gate ------------------------------------------------
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
@@ -286,6 +398,14 @@ if ($ts > 0) {
 // --- Rate limit -------------------------------------------------------------
 if (!rate_ok($cfg)) {
     respond(false, 429, ['error' => 'rate_limited']);
+}
+
+// --- CAPTCHA (Cloudflare Turnstile) — enforced only when a secret is set -----
+if (($cfg['turnstile_secret'] ?? '') !== '') {
+    $token = (string) ($_POST['cf-turnstile-response'] ?? '');
+    if (!verify_turnstile($cfg, $token, client_ip())) {
+        respond(false, 403, ['error' => 'captcha_failed']);
+    }
 }
 
 // --- Validate fields --------------------------------------------------------
@@ -350,10 +470,17 @@ $lead = [
 ];
 
 // --- Persist FIRST so a mail failure can never lose the lead ----------------
-$stored = store_lead($cfg, $lead);
-if (!$stored) {
-    log_error($cfg, 'store_lead failed for ' . $lead['ip']);
+// Written to the JSONL file (always) and the SQL database (if enabled); the
+// lead counts as safe if either store succeeds.
+$storedFile = store_lead($cfg, $lead);
+if (!$storedFile) {
+    log_error($cfg, 'store_lead (file) failed for ' . $lead['ip']);
 }
+$storedDb = false;
+if (!empty($cfg['db_enabled'])) {
+    $storedDb = store_lead_db($cfg, $secureDir, $lead);
+}
+$stored = $storedFile || $storedDb;
 
 // --- Email the firm (best effort; the lead is already safe on disk) ---------
 $emailed    = false;

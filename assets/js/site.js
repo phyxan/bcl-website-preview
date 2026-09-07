@@ -5,6 +5,21 @@
   "use strict";
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* Cloudflare Turnstile CAPTCHA. Set the site key to enable it; empty = dormant. */
+  var TURNSTILE_SITEKEY = "";
+  var _tsLoading = false, _tsQueue = [];
+  function ensureTurnstile(cb) {
+    if (window.turnstile) { cb(); return; }
+    _tsQueue.push(cb);
+    if (_tsLoading) return;
+    _tsLoading = true;
+    var s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    s.async = true; s.defer = true;
+    s.onload = function () { _tsQueue.forEach(function (fn) { fn(); }); _tsQueue = []; };
+    document.head.appendChild(s);
+  }
+
   /* sticky header shadow */
   var header = document.querySelector("header.site");
   if (header) {
@@ -130,6 +145,19 @@
     var tsField = f.querySelector('input[name="ts"]');
     if (tsField) tsField.value = Math.floor(Date.now() / 1000);
 
+    var tsHolder = f.querySelector(".cf-turnstile-holder");
+    var tsWidget = null;
+    if (TURNSTILE_SITEKEY && tsHolder) {
+      ensureTurnstile(function () {
+        try { tsWidget = window.turnstile.render(tsHolder, { sitekey: TURNSTILE_SITEKEY }); } catch (e) {}
+      });
+    }
+    var resetTs = function () {
+      if (tsWidget !== null && window.turnstile) {
+        try { window.turnstile.reset(tsWidget); } catch (e) {}
+      }
+    };
+
     var errBox = f.querySelector(".form-error");
     var okBox = f.querySelector(".form-success");
     var btn = f.querySelector('button[type="submit"]');
@@ -190,8 +218,11 @@
             });
           } else {
             if (btn) { btn.disabled = false; btn.textContent = btnText; }
+            resetTs();
             if (data && data.error === "rate_limited") {
               showErrors(null, "You've sent this several times. Please call (214) 526-0555 and we'll help right away.");
+            } else if (data && data.error === "captcha_failed") {
+              showErrors(null, "The spam check didn't pass. Please try again, or call (214) 526-0555.");
             } else {
               showErrors(data && data.errors, "We couldn't submit that. Please try again, or call (214) 526-0555.");
             }
@@ -199,6 +230,7 @@
         })
         .catch(function () {
           if (btn) { btn.disabled = false; btn.textContent = btnText; }
+          resetTs();
           showErrors(null, "Network problem submitting the form. Please try again, or call (214) 526-0555.");
         });
     });

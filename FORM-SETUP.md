@@ -71,6 +71,37 @@ add these in GoDaddy DNS to protect your Google Workspace mail from spoofing:
 | TXT  | `@`      | `v=spf1 include:_spf.google.com ~all`                          |
 | TXT  | `_dmarc` | `v=DMARC1; p=none; rua=mailto:postmaster@barrettcrimelaw.com`  |
 
+## Database
+
+Every lead is also written to a SQL database (on top of the JSONL file). By default that's a
+first-party **SQLite** file at `~/bcl-secure/leads.sqlite` — no setup, outside the web root. Browse/export it:
+
+```
+sqlite3 ~/bcl-secure/leads.sqlite 'SELECT received_at,name,phone,charge FROM leads ORDER BY id DESC LIMIT 20;'
+```
+
+Prefer **MySQL** (to browse in cPanel's phpMyAdmin)? Create a database + user in
+**cPanel → MySQL Databases**, grant the user all privileges, then set in `~/bcl-secure/mail-config.php`:
+
+```php
+'db_dsn'  => 'mysql:host=localhost;dbname=USER_bcl_leads;charset=utf8mb4',
+'db_user' => 'USER_bclmail',
+'db_pass' => '<the db user password>',
+```
+
+The `leads` table auto-creates on the first submission. Set `'db_enabled' => false` for JSONL-only.
+
+## CAPTCHA (Cloudflare Turnstile)
+
+Free, privacy-friendly, and layered on top of the honeypot + time-trap + rate limit already active.
+
+1. **dash.cloudflare.com → Turnstile** → add a widget for `barrettcrimelaw.com`. You get a **Site key** (public) and a **Secret key**.
+2. Put the **Site key** in `assets/js/site.js`: `var TURNSTILE_SITEKEY = "0x...";` (then redeploy).
+3. Put the **Secret key** in `~/bcl-secure/mail-config.php`: `'turnstile_secret' => '0x...'`.
+
+Once the secret is set, `form.php` rejects any submission whose Turnstile token fails Cloudflare
+verification. Until then, the form works with the other anti-spam layers.
+
 ## Security features
 
 - POST + HTTPS only; same-origin enforced when an `Origin`/`Referer` is present.

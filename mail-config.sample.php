@@ -37,6 +37,23 @@ return [
     'mailgun_api_key' => 'PASTE-MAILGUN-SENDING-API-KEY', // Mailgun → Sending → Domain settings → API keys
     'mailgun_region'  => 'us',                            // 'us' or 'eu' — match where you created the domain
 
+    // --- Database -----------------------------------------------------------
+    // Every lead is stored to a SQL database too (in addition to the JSONL file).
+    // Default (db_dsn empty) = a first-party SQLite file at ~/bcl-secure/leads.sqlite,
+    // which needs no cPanel setup. To use MySQL instead (browse it in phpMyAdmin),
+    // create a DB + user in cPanel and set:
+    //   'db_dsn' => 'mysql:host=localhost;dbname=USER_bcl_leads;charset=utf8mb4',
+    //   'db_user' => 'USER_bclmail', 'db_pass' => '...'
+    'db_enabled' => true,
+    'db_dsn'     => '',
+    'db_user'    => '',
+    'db_pass'    => '',
+
+    // --- CAPTCHA (Cloudflare Turnstile) ------------------------------------
+    // Free. Create a widget at dash.cloudflare.com → Turnstile. Put the SITE key
+    // in assets/js/site.js (TURNSTILE_SITEKEY) and the SECRET key here. Empty = off.
+    'turnstile_secret' => '',
+
     // --- Security / anti-abuse ---------------------------------------------
     'allowed_origins' => [
         'https://www.barrettcrimelaw.com',
