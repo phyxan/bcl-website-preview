@@ -42,6 +42,9 @@ $cfg = [
     'smtp_auth'           => true,
     'smtp_user'           => '',
     'smtp_pass'           => '',
+    'mailgun_domain'      => '',       // e.g. mg.barrettcrimelaw.com (transport = 'mailgun')
+    'mailgun_api_key'     => '',       // Mailgun Sending API key
+    'mailgun_region'      => 'us',     // 'us' or 'eu'
     'allowed_origins'     => [
         'https://www.barrettcrimelaw.com',
         'https://barrettcrimelaw.com',
@@ -187,6 +190,54 @@ function store_lead(array $cfg, array $lead): bool
     return false;
 }
 
+/**
+ * Send via the Mailgun HTTPS API (port 443). GoDaddy shared hosting blocks
+ * outbound SMTP, so the API is the reliable transport here.
+ * from/to come from trusted config; $subject is already single-line; the
+ * visitor's address is validated and goes only in Reply-To. Returns [ok, error].
+ */
+function send_via_mailgun(array $cfg, string $subject, string $body, string $replyEmail, string $replyName): array
+{
+    if (!function_exists('curl_init')) {
+        return [false, 'php-curl not available for Mailgun API'];
+    }
+    $host = (($cfg['mailgun_region'] ?? 'us') === 'eu') ? 'api.eu.mailgun.net' : 'api.mailgun.net';
+    $url  = 'https://' . $host . '/v3/' . rawurlencode((string) $cfg['mailgun_domain']) . '/messages';
+
+    $fields = [
+        'from'    => sprintf('%s <%s>', $cfg['from_name'], $cfg['from']),
+        'to'      => sprintf('%s <%s>', $cfg['to_name'], $cfg['to']),
+        'subject' => $subject,
+        'text'    => $body,
+    ];
+    if ($replyEmail !== '') {
+        $fields['h:Reply-To'] = $replyName !== ''
+            ? sprintf('%s <%s>', $replyName, $replyEmail)
+            : $replyEmail;
+    }
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => http_build_query($fields),
+        CURLOPT_USERPWD        => 'api:' . (string) $cfg['mailgun_api_key'],
+        CURLOPT_CONNECTTIMEOUT => 8,
+        CURLOPT_TIMEOUT        => 20,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+    ]);
+    $resp = curl_exec($ch);
+    $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    $cerr = curl_error($ch);
+    curl_close($ch);
+
+    if ($code >= 200 && $code < 300) {
+        return [true, ''];
+    }
+    return [false, 'mailgun api http ' . $code . ($cerr !== '' ? " curl:$cerr" : '') . ' ' . substr((string) $resp, 0, 200)];
+}
+
 // --- Method / transport gate ------------------------------------------------
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
@@ -304,10 +355,42 @@ if (!$stored) {
     log_error($cfg, 'store_lead failed for ' . $lead['ip']);
 }
 
-// --- Email the firm (best effort) -------------------------------------------
-$emailed = false;
+// --- Email the firm (best effort; the lead is already safe on disk) ---------
+$emailed    = false;
 $configured = $cfg['to'] !== '' && $cfg['from'] !== '';
-if ($configured) {
+$transport  = $cfg['transport'] ?? 'sendmail';
+
+$subject = clean_line(
+    $cfg['subject_prefix'] . ' — ' . $name . ' (' . ($charge !== '' ? $charge : 'charge not specified') . ')',
+    180
+);
+$body = "New Free Case Review request\n"
+    . "============================\n\n"
+    . 'Name:    ' . $name . "\n"
+    . 'Phone:   ' . $phone . "\n"
+    . 'Email:   ' . ($email !== '' ? $email : '(not provided)') . "\n"
+    . 'County:  ' . ($county !== '' ? $county : '(not specified)') . "\n"
+    . 'Charge:  ' . ($charge !== '' ? $charge : '(not specified)') . "\n"
+    . 'Status:  ' . ($status !== '' ? $status : '(not specified)') . "\n\n"
+    . "What happened:\n" . $msg . "\n\n"
+    . "----\n"
+    . 'Received: ' . $lead['received_at'] . " (UTC)\n"
+    . 'IP:       ' . $lead['ip'] . "\n"
+    . 'Browser:  ' . $lead['user_agent'] . "\n";
+
+if (!$configured) {
+    log_error($cfg, 'mail not configured (missing to/from) — lead stored only');
+} elseif ($transport === 'mailgun') {
+    if (($cfg['mailgun_domain'] ?? '') === '' || ($cfg['mailgun_api_key'] ?? '') === '') {
+        log_error($cfg, 'mailgun selected but mailgun_domain/api_key missing — lead stored only');
+    } else {
+        [$emailed, $mgErr] = send_via_mailgun($cfg, $subject, $body, $email, $name);
+        if (!$emailed) {
+            log_error($cfg, $mgErr);
+        }
+    }
+} else {
+    // SMTP or sendmail via PHPMailer.
     try {
         require __DIR__ . '/lib/PHPMailer/Exception.php';
         require __DIR__ . '/lib/PHPMailer/PHPMailer.php';
@@ -316,11 +399,11 @@ if ($configured) {
         $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
         $mail->CharSet = 'UTF-8';
 
-        if (($cfg['transport'] ?? 'sendmail') === 'smtp') {
+        if ($transport === 'smtp') {
             $mail->isSMTP();
-            $mail->Host       = (string) $cfg['smtp_host'];
-            $mail->Port       = (int) $cfg['smtp_port'];
-            $mail->SMTPAuth   = (bool) $cfg['smtp_auth'];
+            $mail->Host     = (string) $cfg['smtp_host'];
+            $mail->Port     = (int) $cfg['smtp_port'];
+            $mail->SMTPAuth = (bool) $cfg['smtp_auth'];
             if ($cfg['smtp_auth']) {
                 $mail->Username = (string) $cfg['smtp_user'];
                 $mail->Password = (string) $cfg['smtp_pass'];
@@ -342,23 +425,8 @@ if ($configured) {
             // PHPMailer re-validates and refuses CRLF-bearing addresses.
             $mail->addReplyTo($email, $name);
         }
-
-        $mail->Subject = clean_line($cfg['subject_prefix'] . ' — ' . $name . ' (' . ($charge ?: 'charge not specified') . ')', 180);
+        $mail->Subject = $subject;
         $mail->isHTML(false);
-
-        $body = "New Free Case Review request\n"
-            . "============================\n\n"
-            . 'Name:    ' . $name . "\n"
-            . 'Phone:   ' . $phone . "\n"
-            . 'Email:   ' . ($email !== '' ? $email : '(not provided)') . "\n"
-            . 'County:  ' . ($county !== '' ? $county : '(not specified)') . "\n"
-            . 'Charge:  ' . ($charge !== '' ? $charge : '(not specified)') . "\n"
-            . 'Status:  ' . ($status !== '' ? $status : '(not specified)') . "\n\n"
-            . "What happened:\n" . $msg . "\n\n"
-            . "----\n"
-            . 'Received: ' . $lead['received_at'] . " (UTC)\n"
-            . 'IP:       ' . $lead['ip'] . "\n"
-            . 'Browser:  ' . $lead['user_agent'] . "\n";
         $mail->Body = $body;
 
         $mail->send();
@@ -366,8 +434,6 @@ if ($configured) {
     } catch (\Throwable $e) {
         log_error($cfg, 'mail send failed: ' . $e->getMessage());
     }
-} else {
-    log_error($cfg, 'mail not configured (missing to/from) — lead stored only');
 }
 
 // --- Reply ------------------------------------------------------------------
