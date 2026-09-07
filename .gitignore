@@ -1,0 +1,9 @@
+# Form secrets and captured leads must never enter the repo.
+# (The real config lives on the server at ~/bcl-secure/, outside the web root.)
+bcl-secure/
+mail-config.php
+*.jsonl
+handler-errors.log
+
+# OS / editor cruft
+.DS_Store
