@@ -1,6 +1,11 @@
-# Live secrets live in ~/bcl-secure on the server, one level above the web
-# root, and must never enter this repo. It is public.
+# Form secrets and captured leads must never enter the repo.
+# (The real config lives on the server at ~/bcl-secure/, outside the web root.)
 bcl-secure/
 mail-config.php
+*.jsonl
 *.sqlite
 leads/
+handler-errors.log
+
+# OS / editor cruft
+.DS_Store
