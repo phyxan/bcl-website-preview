@@ -3,6 +3,8 @@
 bcl-secure/
 mail-config.php
 *.jsonl
+*.sqlite
+leads/
 handler-errors.log
 
 # OS / editor cruft
