@@ -1,0 +1,6 @@
+# Live secrets live in ~/bcl-secure on the server, one level above the web
+# root, and must never enter this repo. It is public.
+bcl-secure/
+mail-config.php
+*.sqlite
+leads/
