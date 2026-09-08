@@ -6,7 +6,7 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* Cloudflare Turnstile CAPTCHA. Set the site key to enable it; empty = dormant. */
-  var TURNSTILE_SITEKEY = "";
+  var TURNSTILE_SITEKEY = "0x4AAAAAAEslAi-mfYJgK-fK";
   var _tsLoading = false, _tsQueue = [];
   function ensureTurnstile(cb) {
     if (window.turnstile) { cb(); return; }
