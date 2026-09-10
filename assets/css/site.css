@@ -365,6 +365,16 @@ textarea{min-height:120px;resize:vertical}
 /* floating call button (mobile) */
 .float-call{display:none;position:fixed;bottom:18px;left:14px;right:14px;z-index:150;background:var(--gold);color:#17140A;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px;padding:16px;border-radius:99px;text-align:center;box-shadow:0 12px 28px rgba(165,131,46,.45)}
 
+/* ---------- verify grid (about page) ---------- */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+.vgroup{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px}
+.vgroup h3{font-family:var(--display);font-size:15px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--gold-dark);margin:0 0 14px}
+.vgroup ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.vgroup a{color:var(--slate);font-size:15px;text-decoration:none;border-bottom:1px solid transparent;transition:.2s}
+.vgroup a:hover{color:var(--charcoal);border-bottom-color:var(--gold)}
+.vgroup .meta{display:block;font-size:13px;color:var(--gray);margin-top:1px}
+.vnote{margin-top:20px;font-size:14px;color:var(--gray)}
+
 /* ---------- responsive ---------- */
 @media (max-width:1080px){
   .hero .wrap{grid-template-columns:1fr;gap:28px}
@@ -372,6 +382,7 @@ textarea{min-height:120px;resize:vertical}
   .artgrid{grid-template-columns:1fr}
   .sidebar{position:static;grid-template-columns:1fr 1fr}
   .pgrid,.steps,.rgrid,.tgrid,.bgrid{grid-template-columns:repeat(2,1fr)}
+  .vgrid{grid-template-columns:1fr}
   .split{grid-template-columns:1fr;gap:40px}
   footer.site .cols{grid-template-columns:1fr 1fr}
 }
