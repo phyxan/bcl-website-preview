@@ -36,6 +36,7 @@ old_url,new_url,match,target_exists
 /category/underage-dwi/,/practice-areas/dwi-defense/,category,yes
 /category/weapons-offenses/,/practice-areas/violent-crimes/,category,yes
 /category/white-collar-crimes/,/practice-areas/federal-crimes/,category,yes
+/contact-us/,/free-case-review/,exact,yes
 /contact/,/free-case-review/,exact,yes
 /contact/free-consultation-drug-crime/,/practice-areas/drug-crimes/,exact,yes
 /contact/free-consultation/,/free-case-review/,exact,yes

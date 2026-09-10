@@ -100,6 +100,8 @@ DirectoryIndex index.html
   RedirectMatch 301 "^/our-firm/?$" "/about/"
   RedirectMatch 301 "^/site-map/?$" "/"
   RedirectMatch 301 "^/contact/?$" "/free-case-review/"
+  # Google Business Profile still links here, and it was live on the old site.
+  RedirectMatch 301 "^/contact-us/?$" "/free-case-review/"
 </IfModule>
 
 # --- Compression -------------------------------------------------------------
