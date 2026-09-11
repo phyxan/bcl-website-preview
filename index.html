@@ -32,13 +32,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
+/* metric-matched fallbacks: text keeps its size and line breaks while the webfonts load (CLS) */
+@font-face{font-family:"LF Fallback";font-weight:800 900;src:local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Arimo Bold");size-adjust:105.3%;ascent-override:91.7%;descent-override:23.4%;line-gap-override:0%}
+@font-face{font-family:"LF Fallback";font-weight:100 799;src:local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Arimo Bold");size-adjust:99.5%;ascent-override:97.1%;descent-override:24.7%;line-gap-override:0%}
+@font-face{font-family:"LF Fallback R";font-weight:800 900;src:local("Roboto Bold"), local("Roboto-Bold");size-adjust:114.8%;ascent-override:84.1%;descent-override:21.4%;line-gap-override:0%}
+@font-face{font-family:"LF Fallback R";font-weight:100 799;src:local("Roboto Bold"), local("Roboto-Bold");size-adjust:105.6%;ascent-override:91.5%;descent-override:23.3%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback";font-weight:100 549;src:local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Arimo");size-adjust:106.1%;ascent-override:91.3%;descent-override:22.7%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback";font-weight:550 900;src:local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Arimo Bold");size-adjust:101.0%;ascent-override:95.9%;descent-override:23.9%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback R";font-weight:100 549;src:local("Roboto"), local("Roboto-Regular");size-adjust:107.0%;ascent-override:90.5%;descent-override:22.5%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback R";font-weight:550 900;src:local("Roboto Bold"), local("Roboto-Bold");size-adjust:107.2%;ascent-override:90.4%;descent-override:22.5%;line-gap-override:0%}
+
 :root{
   --navy:#112337; --navy-2:#0C1A2B; --navy-3:#1A3050; --navy-line:rgba(200,161,90,.22);
   --gold:#C8A15A; --gold-soft:#E2C88C; --gold-deep:#9E7C3A;
   --ink:#14202E; --slate:#41474F; --gray:#6B7280; --gray-light:#9AA1AB;
   --paper:#FFFFFF; --cream:#F7F3EA; --line:#E7E2D6;
-  --sans:"Inter",system-ui,-apple-system,sans-serif;
-  --display:"Libre Franklin",var(--sans);
+  --sans:"Inter","Inter Fallback","Inter Fallback R",system-ui,-apple-system,sans-serif;
+  --display:"Libre Franklin","LF Fallback","LF Fallback R",var(--sans);
   --maxw:1200px; --radius:8px;
   --shadow:0 24px 60px rgba(17,35,55,.18);
 }
@@ -60,7 +70,7 @@ a{text-decoration:none;color:var(--gold-deep)}
 .util .l span{margin-right:20px}
 header{background:var(--navy);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--navy-line)}
 header .wrap{display:flex;align-items:center;justify-content:space-between;padding:15px 24px}
-.logo img{height:50px}
+.logo img{height:50px;width:auto}
 nav ul{list-style:none;display:flex;gap:26px;align-items:center}
 nav a{color:#DCE3EC;font-size:14px;font-weight:600;letter-spacing:.01em}
 nav a:hover{color:var(--gold-soft)}
@@ -167,7 +177,7 @@ h2.t{font-family:var(--display);font-size:clamp(30px,3.7vw,46px);font-weight:800
 .founder{background:var(--cream)}
 .founder .grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center}
 .founder .pic{position:relative;border:1px solid var(--gold);padding:12px;background:#fff}
-.founder .pic img{width:100%}
+.founder .pic img{width:100%;height:auto}
 .founder .pic .stamp{position:absolute;right:-16px;bottom:-16px;background:var(--navy);color:#fff;width:110px;height:110px;border-radius:50%;display:grid;place-content:center;text-align:center;border:2px solid var(--gold)}
 .founder .pic .stamp .n{font-family:var(--display);font-weight:900;font-size:26px;color:var(--gold-soft);line-height:1}
 .founder .pic .stamp .t{font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
@@ -220,7 +230,7 @@ h2.t{font-family:var(--display);font-size:clamp(30px,3.7vw,46px);font-weight:800
 /* footer */
 footer{background:var(--navy-2);color:#93A2B4;padding:60px 0 24px;font-size:14px}
 footer .cols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:44px;padding-bottom:38px;border-bottom:1px solid var(--navy-line)}
-footer img.flogo{height:50px;margin-bottom:16px}
+footer img.flogo{height:50px;width:auto;margin-bottom:16px}
 footer h5{font-family:var(--display);color:#fff;font-size:14px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;margin-bottom:14px}
 footer ul{list-style:none}
 footer li{padding:5px 0}
@@ -249,7 +259,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
   .hero{padding:24px 0 0}
   .hero .wrap{grid-template-columns:1fr;gap:14px;min-height:auto;padding-top:6px}
   .hero-figure{order:-1;align-self:auto;display:flex;justify-content:center;align-items:flex-end;max-width:none;margin:0 auto}
-  .hero-figure img{height:auto;width:auto;max-height:290px;max-width:100%}
+  .hero-figure img{height:290px;width:auto;max-height:290px;max-width:100%}
   .hero-figure .halo{width:150%}
   .hero-figure .badge{left:auto;right:0;bottom:8px;padding:9px 13px}
   .hero-figure .badge .n{font-size:21px}
@@ -280,7 +290,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 
 <header>
   <div class="wrap">
-    <a class="logo" href="./"><img src="assets/img/logo-white.png" alt="Peter Barrett Criminal Defense" /></a>
+    <a class="logo" href="./"><img src="assets/img/logo-white.png" alt="Peter Barrett Criminal Defense" width="206" height="54" /></a>
     <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav aria-label="Primary">
       <ul>
@@ -326,7 +336,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
     </div>
     <div class="hero-figure reveal">
       <div class="halo"></div>
-      <img src="assets/img/LowRez_PeterBarrett.png" alt="Attorney Peter Barrett, Dallas criminal defense lawyer" />
+      <img src="assets/img/LowRez_PeterBarrett.png" alt="Attorney Peter Barrett, Dallas criminal defense lawyer" width="408" height="612" />
       <div class="badge"><div class="n">31</div><div class="t">Years in the<br/>courtroom</div></div>
     </div>
   </div>
@@ -493,7 +503,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 <section class="founder">
   <div class="wrap grid">
     <div class="pic reveal">
-      <img src="assets/img/LowRez_PeterBarrett-new.jpg" alt="Attorney Peter Barrett in his Dallas office" loading="lazy" />
+      <img src="assets/img/LowRez_PeterBarrett-new.jpg" alt="Attorney Peter Barrett in his Dallas office" loading="lazy" width="800" height="1199" />
       <div class="stamp"><div class="n">AV</div><div class="t">Preeminent</div></div>
     </div>
     <div>
@@ -587,7 +597,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
 <footer>
   <div class="wrap cols">
     <div>
-      <img class="flogo" src="assets/img/logo-white.png" alt="Peter Barrett Criminal Defense" loading="lazy" />
+      <img class="flogo" src="assets/img/logo-white.png" alt="Peter Barrett Criminal Defense" loading="lazy" width="229" height="60" />
       <p class="blurb">A Dallas criminal defense practice serving North Texas since 1994. State and federal cases. Bilingual representation. Free, confidential consultations.</p>
     </div>
     <div><h5>Practice</h5><ul>

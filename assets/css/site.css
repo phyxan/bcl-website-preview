@@ -4,6 +4,15 @@
    Matches the chosen homepage concept (AER-style navy & gold).
    ============================================================ */
 
+/* metric-matched fallbacks: text keeps its size and line breaks while the webfonts load (CLS) */
+@font-face{font-family:"LF Fallback";font-weight:800 900;src:local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Arimo Bold");size-adjust:105.3%;ascent-override:91.7%;descent-override:23.4%;line-gap-override:0%}
+@font-face{font-family:"LF Fallback";font-weight:100 799;src:local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Arimo Bold");size-adjust:99.5%;ascent-override:97.1%;descent-override:24.7%;line-gap-override:0%}
+@font-face{font-family:"LF Fallback R";font-weight:800 900;src:local("Roboto Bold"), local("Roboto-Bold");size-adjust:114.8%;ascent-override:84.1%;descent-override:21.4%;line-gap-override:0%}
+@font-face{font-family:"LF Fallback R";font-weight:100 799;src:local("Roboto Bold"), local("Roboto-Bold");size-adjust:105.6%;ascent-override:91.5%;descent-override:23.3%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback";font-weight:100 549;src:local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Arimo");size-adjust:106.1%;ascent-override:91.3%;descent-override:22.7%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback";font-weight:550 900;src:local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Arimo Bold");size-adjust:101.0%;ascent-override:95.9%;descent-override:23.9%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback R";font-weight:100 549;src:local("Roboto"), local("Roboto-Regular");size-adjust:107.0%;ascent-override:90.5%;descent-override:22.5%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback R";font-weight:550 900;src:local("Roboto Bold"), local("Roboto-Bold");size-adjust:107.2%;ascent-override:90.4%;descent-override:22.5%;line-gap-override:0%}
 :root{
   --gold:#C8A15A;        /* warm gold - fills, buttons, icons, stars, on-dark accents */
   --gold-dark:#9E7C3A;   /* darker gold - links + accent text on white */
@@ -21,9 +30,9 @@
   --line-dark:rgba(200,161,90,.20);
   --green:#1E7B4D;
   /* --serif holds the Libre Franklin display stack so existing heading rules pick it up */
-  --serif:"Libre Franklin",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --display:"Libre Franklin",system-ui,sans-serif;
-  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Libre Franklin","LF Fallback","LF Fallback R",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Libre Franklin","LF Fallback","LF Fallback R",system-ui,sans-serif;
+  --sans:"Inter","Inter Fallback","Inter Fallback R",system-ui,-apple-system,"Segoe UI",sans-serif;
   --shadow-sm:0 2px 8px rgba(28,28,28,.06);
   --shadow-md:0 10px 30px rgba(28,28,28,.10);
   --shadow-lg:0 24px 60px rgba(28,28,28,.14);
@@ -153,7 +162,7 @@ h2.title .accent{color:var(--gold-dark)}
 /* ---------- split (why) ---------- */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
 .split .photo-frame{position:relative}
-.split .photo-frame img{border-radius:var(--radius);box-shadow:var(--shadow-lg);width:100%;object-fit:cover}
+.split .photo-frame img{border-radius:var(--radius);box-shadow:var(--shadow-lg);width:100%;height:auto;object-fit:cover}
 .split .photo-frame::before{content:"";position:absolute;inset:-16px 16px 16px -16px;border:3px solid var(--gold);border-radius:var(--radius);z-index:-1}
 .featlist{list-style:none;display:grid;gap:10px}
 .featlist li{display:flex;gap:18px;padding:20px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);transition:.2s}
@@ -227,7 +236,7 @@ footer.site ul{list-style:none}
 footer.site li{padding:5px 0}
 footer.site a{color:#B9B3AD}
 footer.site a:hover{color:var(--gold)}
-footer.site .logo img{height:60px;margin-bottom:18px}
+footer.site .logo img{height:60px;width:auto;margin-bottom:18px}
 footer.site .about-blurb{line-height:1.7;max-width:340px}
 footer.site .contact-li{display:flex;gap:12px;align-items:flex-start;padding:7px 0}
 footer.site .contact-li svg{width:18px;height:18px;color:var(--gold);flex-shrink:0;margin-top:4px}
