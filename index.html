@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en-US">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88H01HHJBC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88H01HHJBC');
+</script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Dallas Criminal Defense Attorney | Peter Barrett Criminal Defense</title>
@@ -630,6 +639,7 @@ footer .legal{padding-top:22px;font-size:12px;color:#67788C;line-height:1.7;text
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:"0px 0px -40px 0px"});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
   var y=new Date().getFullYear();document.querySelectorAll('.yr').forEach(function(e){e.textContent=y;});
+  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="tel:"]');if(a&&typeof window.gtag==='function'){window.gtag('event','click_to_call',{link_url:a.getAttribute('href'),page_path:location.pathname});}});
   var mb=document.querySelector('.menu-btn'),nv=document.querySelector('nav');
   if(mb&&nv){
     mb.addEventListener('click',function(){var o=nv.classList.toggle('open');mb.classList.toggle('open',o);mb.setAttribute('aria-expanded',o?'true':'false');document.body.style.overflow=o?'hidden':'';});

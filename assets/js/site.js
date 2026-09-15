@@ -209,6 +209,9 @@
         .then(function (data) {
           if (data && data.ok) {
             clearErrors();
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "generate_lead", { form_name: "free_case_review", page_path: location.pathname });
+            }
             if (okBox) {
               okBox.style.display = "block";
               okBox.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
@@ -234,6 +237,14 @@
           showErrors(null, "Network problem submitting the form. Please try again, or call (214) 526-0555.");
         });
     });
+  });
+
+  /* GA4: phone taps are the firm's main lead source, so record every tel: click */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (a && typeof window.gtag === "function") {
+      window.gtag("event", "click_to_call", { link_url: a.getAttribute("href"), page_path: location.pathname });
+    }
   });
 
   /* current year */
