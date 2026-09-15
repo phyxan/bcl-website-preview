@@ -60,7 +60,7 @@ DirectoryIndex index.html
   RedirectMatch 301 "^/category/criminal-defense/?$" "/blog/"
   RedirectMatch 301 "^/category/weapons-offenses/?$" "/practice-areas/violent-crimes/"
   RedirectMatch 301 "^/contact/free-consultation/?$" "/free-case-review/"
-  RedirectMatch 301 "^/texas-crimes/embezzlement/?$" "/practice-areas/federal-crimes/"
+  RedirectMatch 301 "^/texas-crimes/embezzlement/?$" "/practice-areas/white-collar-crimes/"
   RedirectMatch 301 "^/texas-crimes/manslaughter/?$" "/practice-areas/violent-crimes/"
   RedirectMatch 301 "^/category/adult-probation/?$" "/blog/arrested-in-dallas-first-48-hours/"
   RedirectMatch 301 "^/category/arrest-warrants/?$" "/blog/arrested-in-dallas-first-48-hours/"
