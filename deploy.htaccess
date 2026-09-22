@@ -20,6 +20,39 @@ DirectoryIndex index.html
   RewriteRule ^(.*)$ /$1/ [R=301,L]
 </IfModule>
 
+# --- Old WordPress URL patterns that used to 404 -----------------------------
+# The old site used /criminal-defense/<area>/ and dated blog permalinks
+# (/blog/YYYY/MM/slug/). Both were still being requested in volume.
+<IfModule mod_rewrite.c>
+  RewriteRule ^criminal-defense/(drug-crimes|drug-possession|drug-trafficking|drug-manufacturing)/?$ /practice-areas/drug-crimes/ [R=301,L]
+  RewriteRule ^criminal-defense/(sexual-assault|child-pornography|sex-crimes|indecency-with-a-child)/?$ /practice-areas/sexual-offenses/ [R=301,L]
+  RewriteRule ^criminal-defense/(assault|aggravated-assault|family-violence|robbery|murder|manslaughter|violent-crimes|weapons-offenses)/?$ /practice-areas/violent-crimes/ [R=301,L]
+  RewriteRule ^criminal-defense/(embezzlement|white-collar-crimes|white-collar|fraud|theft|identity-theft|money-laundering)/?$ /practice-areas/white-collar-crimes/ [R=301,L]
+  RewriteRule ^criminal-defense/(dwi|dui|dwi-defense|intoxication-assault|intoxication-manslaughter)/?$ /practice-areas/dwi-defense/ [R=301,L]
+  RewriteRule ^criminal-defense/(federal-crimes|federal|federal-drug-conspiracy)/?$ /practice-areas/federal-crimes/ [R=301,L]
+  RewriteRule ^criminal-defense/probation-violations/?$ /blog/arrested-in-dallas-first-48-hours/ [R=301,L]
+  RewriteRule ^criminal-defense(/.*)?$ / [R=301,L]
+
+  # Dated blog permalinks: send them to the post at its current address.
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^blog/[0-9]{4}/[0-9]{2}/([^/]+)(/page/?[0-9]*)?/?$ /$1/ [R=301,L]
+  RewriteCond %{DOCUMENT_ROOT}/blog/$1/index.html -f
+  RewriteRule ^blog/[0-9]{4}/[0-9]{2}/([^/]+)(/page/?[0-9]*)?/?$ /blog/$1/ [R=301,L]
+  RewriteRule ^blog/[0-9]{4}(/.*)?$ /blog/ [R=301,L]
+  RewriteRule ^blog/page/?[0-9]*/?$ /blog/ [R=301,L]
+
+  # Other old paths still being requested
+  RewriteRule ^privacy/?$ /legal-disclaimer/ [R=301,L]
+  RewriteRule ^(team|our-team|about-us|our-firm|attorney|attorneys)/?$ /about/ [R=301,L]
+  RewriteRule ^(contactus|contact_us|contact-us|get-in-touch|free-consultation)/?$ /free-case-review/ [R=301,L]
+  RewriteRule ^(index|home)$ / [R=301,L]
+  RewriteRule ^lp/[^/]+/?$ / [R=301,L]
+
+  # Dead WordPress endpoints: tell crawlers they are gone instead of serving a page.
+  RewriteRule ^(.*/)?(feed|rss|rss2|atom)/?$ - [G,L]
+  RewriteRule ^(wp-json|wp-admin|wp-includes|wp-content|wp-sitemap|wp-login\.php|wp-cron\.php|xmlrpc\.php) - [G,L]
+</IfModule>
+
 # 404 handling. ErrorDocument is overridden at the server level on this
 # GoDaddy account, tested and confirmed, so a rewrite to a small PHP shim is
 # what actually produces a 404 status with the branded page.
