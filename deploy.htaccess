@@ -47,6 +47,8 @@ DirectoryIndex index.html
   RewriteRule ^(contactus|contact_us|contact-us|get-in-touch|free-consultation)/?$ /free-case-review/ [R=301,L]
   RewriteRule ^(index|home)$ / [R=301,L]
   RewriteRule ^lp/[^/]+/?$ / [R=301,L]
+  RewriteRule ^exceptions-to-canadas-inadmissibility-rules-for-us-citizens/?$ /traveling-abroad-with-a-recent-felony-conviction/ [R=301,L]
+  RewriteRule ^blog/(texas-penalty-groups|texas-drug-penalty-groups-explained)/?$ /blog/texas-drug-penalty-groups/ [R=301,L]
 
   # Dead WordPress endpoints: tell crawlers they are gone instead of serving a page.
   RewriteRule ^(.*/)?(feed|rss|rss2|atom)/?$ - [G,L]
