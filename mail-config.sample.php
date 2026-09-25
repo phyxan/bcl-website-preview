@@ -18,11 +18,12 @@
 return [
     // --- Where leads are delivered ------------------------------------------
     'to'        => 'intake@barrettcrimelaw.com',   // REQUIRED: firm inbox (your Google Workspace address)
+    'cc'                  => '',   // optional CC recipient(s), comma-separated (e.g. the attorney)
     'to_name'   => 'Peter Barrett Criminal Defense',
 
     // Envelope sender — use an address on the Mailgun sending subdomain so
     // Mailgun's DKIM signature aligns.
-    'from'      => 'no-reply@mg.barrettcrimelaw.com',
+    'from'      => 'no-reply@no-reply.barrettcrimelaw.com',
     'from_name' => 'BCL Website',
 
     'subject_prefix' => 'New Free Case Review',
@@ -33,7 +34,7 @@ return [
     'transport' => 'mailgun',
 
     // Mailgun (used when transport = 'mailgun'):
-    'mailgun_domain'  => 'mg.barrettcrimelaw.com',        // the verified sending subdomain
+    'mailgun_domain'  => 'no-reply.barrettcrimelaw.com',        // the verified sending subdomain
     'mailgun_api_key' => 'PASTE-MAILGUN-SENDING-API-KEY', // Mailgun → Sending → Domain settings → API keys
     'mailgun_region'  => 'us',                            // 'us' or 'eu' — match where you created the domain
 

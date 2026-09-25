@@ -32,6 +32,7 @@ $configPath = getenv('BCL_CONFIG') ?: ($secureDir . '/mail-config.php');
 $cfg = [
     'to'                  => '',
     'to_name'             => 'Peter Barrett Criminal Defense',
+    'cc'                  => '',       // optional CC recipient(s), comma-separated
     'from'                => '',
     'from_name'           => 'BCL Website',
     'subject_prefix'      => 'New Free Case Review',
@@ -215,6 +216,9 @@ function send_via_mailgun(array $cfg, string $subject, string $body, string $rep
         'subject' => $subject,
         'text'    => $body,
     ];
+    if (!empty($cfg['cc'])) {
+        $fields['cc'] = (string) $cfg['cc'];
+    }
     if ($replyEmail !== '') {
         $fields['h:Reply-To'] = $replyName !== ''
             ? sprintf('%s <%s>', $replyName, $replyEmail)
@@ -400,14 +404,6 @@ if (!rate_ok($cfg)) {
     respond(false, 429, ['error' => 'rate_limited']);
 }
 
-// --- CAPTCHA (Cloudflare Turnstile) — enforced only when a secret is set -----
-if (($cfg['turnstile_secret'] ?? '') !== '') {
-    $token = (string) ($_POST['cf-turnstile-response'] ?? '');
-    if (!verify_turnstile($cfg, $token, client_ip())) {
-        respond(false, 403, ['error' => 'captcha_failed']);
-    }
-}
-
 // --- Validate fields --------------------------------------------------------
 $COUNTIES = ['Dallas County', 'Collin County', 'Denton County', 'Tarrant County', 'Rockwall County', 'Other / Federal', 'Not sure'];
 $CHARGES  = ['DWI / DUI', 'Drug charge', 'Federal charge', 'Sexual offense', 'White collar / fraud / theft', 'Assault / violent charge', 'Warrant / probation issue', 'Other / not sure'];
@@ -468,6 +464,29 @@ $lead = [
     'user_agent'  => clean_line((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 300),
     'origin'      => $origin,
 ];
+
+// --- CAPTCHA (Cloudflare Turnstile) — enforced only when a secret is set -----
+// Deliberately runs AFTER validation and lead assembly. Anything reaching this
+// point has already cleared the honeypot, the time-trap, the rate limit and full
+// field validation, so it is very unlikely to be a bot. Turnstile still fails for
+// real people — a blocked challenge endpoint, a privacy extension, a token that
+// expired while they typed — and a criminal defense enquiry is far too costly to
+// drop silently, so the lead is kept before the request is refused.
+// Retained leads go to the JSONL file only: it is schemaless, so this needs no
+// database migration. No email is sent, so a flood of failures cannot spam the firm.
+if (($cfg['turnstile_secret'] ?? '') !== '') {
+    $token = (string) ($_POST['cf-turnstile-response'] ?? '');
+    if (!verify_turnstile($cfg, $token, client_ip())) {
+        $flagged = $lead;
+        $flagged['captcha'] = 'failed';
+        if (!store_lead($cfg, $flagged)) {
+            log_error($cfg, 'captcha_failed AND retention write failed for ' . $lead['ip']);
+        } else {
+            log_error($cfg, 'captcha_failed; lead retained for ' . $lead['ip'] . ' (' . $lead['name'] . ')');
+        }
+        respond(false, 403, ['error' => 'captcha_failed']);
+    }
+}
 
 // --- Persist FIRST so a mail failure can never lose the lead ----------------
 // Written to the JSONL file (always) and the SQL database (if enabled); the
