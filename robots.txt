@@ -47,4 +47,7 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
+# Machine-readable summary of the firm and its content, for LLMs and AI assistants:
+# https://www.barrettcrimelaw.com/llms.txt
+
 Sitemap: https://www.barrettcrimelaw.com/sitemap.xml
