@@ -45,10 +45,29 @@ DirectoryIndex index.html
   RewriteRule ^privacy/?$ /legal-disclaimer/ [R=301,L]
   RewriteRule ^(team|our-team|about-us|our-firm|attorney|attorneys)/?$ /about/ [R=301,L]
   RewriteRule ^(contactus|contact_us|contact-us|get-in-touch|free-consultation)/?$ /free-case-review/ [R=301,L]
-  RewriteRule ^(index|home)$ / [R=301,L]
+  RewriteRule ^(index|home)/?$ / [R=301,L]
   RewriteRule ^lp/[^/]+/?$ / [R=301,L]
   RewriteRule ^exceptions-to-canadas-inadmissibility-rules-for-us-citizens/?$ /traveling-abroad-with-a-recent-felony-conviction/ [R=301,L]
   RewriteRule ^blog/(texas-penalty-groups|texas-drug-penalty-groups-explained)/?$ /blog/texas-drug-penalty-groups/ [R=301,L]
+
+  # Old root-level WordPress pages (pre-2026 permalinks). The bio URL is the one
+  # Avvo still links to; the rest are the old practice-area pages. Verified against
+  # the page list in the pre-cutover database, 2026-09-27.
+  RewriteRule ^meet-peter-barrett(/.*)?$ /about/ [R=301,L]
+  RewriteRule ^(peter-barrett|how-to-choose-your-attorney)/?$ /about/ [R=301,L]
+  RewriteRule ^(drug-crimes|drug-possession)/?$ /practice-areas/drug-crimes/ [R=301,L]
+  RewriteRule ^sexual-assault/?$ /practice-areas/sexual-offenses/sexual-assault/ [R=301,L]
+  RewriteRule ^(child-pornography|child-sexual-assault)/?$ /practice-areas/sexual-offenses/ [R=301,L]
+  RewriteRule ^(assault|family-violence|dallas-robbery-lawyer)/?$ /practice-areas/violent-crimes/ [R=301,L]
+  RewriteRule ^(cybercrimes|securities-fraud)/?$ /practice-areas/white-collar-crimes/ [R=301,L]
+  RewriteRule ^(federal-fraud|other-federal-crimes)/?$ /practice-areas/federal-crimes/ [R=301,L]
+  RewriteRule ^federal-drug-conspiracy/?$ /facing-federal-drug-conspiracy-charges-in-texas/ [R=301,L]
+  RewriteRule ^health-care-fraud/?$ /what-constitutes-health-care-fraud-in-texas/ [R=301,L]
+  RewriteRule ^embezzlement/?$ /understanding-texas-embezzlement-charges/ [R=301,L]
+  RewriteRule ^money-laundering/?$ /understanding-embezzlement-versus-money-laundering/ [R=301,L]
+  RewriteRule ^manslaughter/?$ /manslaughter-charges-in-texas/ [R=301,L]
+  RewriteRule ^probation-violations/?$ /avoid-probation-violations-in-texas/ [R=301,L]
+  RewriteRule ^free-consultation-drug-crime/?$ /free-case-review/ [R=301,L]
 
   # Dead WordPress endpoints: tell crawlers they are gone instead of serving a page.
   RewriteRule ^(.*/)?(feed|rss|rss2|atom)/?$ - [G,L]
