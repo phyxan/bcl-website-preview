@@ -69,6 +69,10 @@ DirectoryIndex index.html
   RewriteRule ^probation-violations/?$ /avoid-probation-violations-in-texas/ [R=301,L]
   RewriteRule ^free-consultation-drug-crime/?$ /free-case-review/ [R=301,L]
 
+  # Retired 2026-09-27: the weather-and-crime listicle had no defensible rewrite.
+  # Its traffic and any links now feed the DPS-sourced crime data page.
+  RewriteRule ^do-certain-weather-conditions-affect-crime-rates/?$ /is-crime-increasing-in-texas/ [R=301,L]
+
   # Dead WordPress endpoints: tell crawlers they are gone instead of serving a page.
   RewriteRule ^(.*/)?(feed|rss|rss2|atom)/?$ - [G,L]
   RewriteRule ^(wp-json|wp-admin|wp-includes|wp-content|wp-sitemap|wp-login\.php|wp-cron\.php|xmlrpc\.php) - [G,L]
