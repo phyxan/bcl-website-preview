@@ -372,7 +372,7 @@ textarea{min-height:120px;resize:vertical}
 }
 
 /* floating call button (mobile) */
-.float-call{display:none;position:fixed;bottom:18px;left:14px;right:14px;z-index:150;background:var(--gold);color:#17140A;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px;padding:16px;border-radius:99px;text-align:center;box-shadow:0 12px 28px rgba(165,131,46,.45)}
+
 
 /* ---------- verify grid (about page) ---------- */
 .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
@@ -411,7 +411,7 @@ textarea{min-height:120px;resize:vertical}
   .fgrid{grid-template-columns:1fr}
   .cta-inline{grid-template-columns:1fr}
   .topstrip .left span.hours{display:none}
-  .float-call{display:block}
+  
   body{padding-bottom:74px}
   .sidebar{grid-template-columns:1fr}
 }
